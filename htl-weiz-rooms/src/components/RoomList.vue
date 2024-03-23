@@ -27,6 +27,7 @@
           <th>Name</th>
           <th>Description</th>
           <th>Occupied</th>
+          <th>Action</th>
         </tr>
       </thead>
       <tbody>
@@ -34,6 +35,9 @@
           <td>{{ room.name }}</td>
           <td>{{ room.description }}</td>
           <td>{{ room.occupied ? 'Yes' : 'No' }}</td>
+          <td>
+            <button class="delete-btn" @click="deleteRoom(room.id)">Delete</button>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -70,12 +74,23 @@ export default {
       }
     };
 
+    const deleteRoom = async (roomId) => {
+      try {
+        await axios.delete(`http://localhost:8000/rooms/${roomId}`);
+        // Fetch updated room list
+        await fetchRooms();
+      } catch (error) {
+        console.error('Error deleting room:', error);
+      }
+    };
+
     onMounted(fetchRooms);
 
     return {
       rooms,
       newRoom,
       saveRoom,
+      deleteRoom,
     };
   },
 };
@@ -84,6 +99,8 @@ export default {
 <style>
 .container {
   text-align: center;
+  background-color: #2c2f33; /* Dark background */
+  color: #fff; /* White text */
 }
 
 .header {
@@ -92,10 +109,15 @@ export default {
 
 .create-room {
   margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .input-group {
   margin-bottom: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .input-group label {
@@ -124,13 +146,28 @@ export default {
   background-color: #5f73bc; /* Darker shade of Discord color */
 }
 
+.delete-btn {
+  background-color: #ff0000; /* Red color for delete button */
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.delete-btn:hover {
+  background-color: #cc0000; /* Darker shade of red */
+}
+
 .room-table {
   width: 80%;
   margin: auto;
   border-collapse: collapse;
 }
 
-.room-table th, .room-table td {
+.room-table th,
+.room-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;

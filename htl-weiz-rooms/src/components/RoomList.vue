@@ -7,9 +7,9 @@
       <thead>
         <tr>
           <th>Name</th>
-          <th>Description</th>
-          <th>Occupied</th>
-          <th>Action</th>
+          <th>Beschreibung</th>
+          <th>Belegt</th>
+          <th>Löschen</th>
         </tr>
       </thead>
       <tbody>
@@ -18,7 +18,7 @@
           <td>{{ room.description }}</td>
           <td>{{ room.occupied ? 'Yes' : 'No' }}</td>
           <td>
-            <button class="delete-btn" @click="deleteRoom(room.id)">Delete</button>
+            <button class="delete-btn" @click="deleteRoom(room.id)">Löschen</button>
           </td>
         </tr>
       </tbody>

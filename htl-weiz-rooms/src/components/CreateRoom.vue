@@ -1,12 +1,12 @@
 <template>
   <div class="create-room">
-    <h2>Create New Room</h2>
+    <h2>Neuen Raum erstellen:</h2>
     <div class="input-group">
       <input type="text" id="name" v-model="newRoom.name" placeholder="Name" />
-      <input type="text" id="description" v-model="newRoom.description" placeholder="Description" />
-      <label for="occupied">Occupied:</label>
+      <input type="text" id="description" v-model="newRoom.description" placeholder="Beschreibung" />
+      <label for="occupied">Belegt:</label>
       <input type="checkbox" id="occupied" v-model="newRoom.occupied" />
-      <button class="save-btn" @click="saveRoom">Save</button>
+      <button class="save-btn" @click="saveRoom">Speichern</button>
     </div>
   </div>
 </template>

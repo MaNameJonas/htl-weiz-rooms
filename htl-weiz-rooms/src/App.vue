@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <h1 class="header">List of Rooms</h1>
+    <h1 class="header">HTL Weiz Räume</h1>
     <CreateRoom />
     <RoomList />
   </div>

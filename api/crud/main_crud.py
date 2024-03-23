@@ -3,6 +3,7 @@ import sqlalchemy
 
 from typing import List
 from sqlalchemy.exc import SQLAlchemyError
+from typing import Optional
 
 from .datamodel import Base, Room
 
@@ -47,7 +48,7 @@ class HTL_Weiz_Room:
             logging.error(f"Error occurred while updating room: {e}")
             return False
 
-    def create_room(self, room_data: dict) -> Room:
+    def create_room(self, room_data: dict) -> Optional[Room]:
         try:
             new_room = Room(**room_data)
             self.session.add(new_room)

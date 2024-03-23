@@ -50,7 +50,7 @@ async def read_room(room_id: int) -> Room:
 
 @app.post('/rooms/', tags=['rooms'])
 async def create_room(room: RoomNoID) -> Room:
-    new_room = room_crud.create_room(room.dict())
+    new_room = room_crud.create_room(room.model_dump())
     if not new_room:
         raise HTTPException(status_code=500, detail="Failed to create room")
     return new_room

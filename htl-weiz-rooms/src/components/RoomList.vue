@@ -1,24 +1,6 @@
 <template>
   <div class="container">
-    <h1 class="header">List of Rooms</h1>
-
-    <!-- Create Room Form -->
-    <div class="create-room">
-      <h2>Create New Room</h2>
-      <div class="input-group">
-        <label for="name">Name:</label>
-        <input type="text" id="name" v-model="newRoom.name" />
-      </div>
-      <div class="input-group">
-        <label for="description">Description:</label>
-        <input type="text" id="description" v-model="newRoom.description" />
-      </div>
-      <div class="input-group">
-        <label for="occupied">Occupied:</label>
-        <input type="checkbox" id="occupied" v-model="newRoom.occupied" />
-      </div>
-      <button class="save-btn" @click="saveRoom">Save</button>
-    </div>
+    
 
     <!-- Room List -->
     <table class="room-table">
@@ -51,7 +33,6 @@ import axios from 'axios';
 export default {
   setup() {
     const rooms = ref([]);
-    const newRoom = ref({ name: '', description: '', occupied: false });
 
     const fetchRooms = async () => {
       try {
@@ -59,18 +40,6 @@ export default {
         rooms.value = response.data;
       } catch (error) {
         console.error('Error fetching rooms:', error);
-      }
-    };
-
-    const saveRoom = async () => {
-      try {
-        await axios.post('http://localhost:8000/rooms', newRoom.value);
-        // Clear the new room data
-        newRoom.value = { name: '', description: '', occupied: false };
-        // Fetch updated room list
-        await fetchRooms();
-      } catch (error) {
-        console.error('Error saving room:', error);
       }
     };
 
@@ -88,8 +57,6 @@ export default {
 
     return {
       rooms,
-      newRoom,
-      saveRoom,
       deleteRoom,
     };
   },
@@ -101,49 +68,11 @@ export default {
   text-align: center;
   background-color: #2c2f33; /* Dark background */
   color: #fff; /* White text */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
 }
 
 .header {
   color: #7289da; /* Discord color template */
-}
-
-.create-room {
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.input-group {
-  margin-bottom: 10px;
-  display: flex;
-  align-items: center;
-}
-
-.input-group label {
-  display: inline-block;
-  width: 100px;
-  text-align: right;
-  margin-right: 10px;
-}
-
-.input-group input[type="text"],
-.input-group input[type="checkbox"] {
-  width: 200px;
-}
-
-.save-btn {
-  background-color: #7289da; /* Discord color template */
-  color: #fff;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.save-btn:hover {
-  background-color: #5f73bc; /* Darker shade of Discord color */
 }
 
 .delete-btn {

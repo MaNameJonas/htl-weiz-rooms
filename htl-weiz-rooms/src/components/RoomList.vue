@@ -1,13 +1,32 @@
 <template>
   <div class="container">
     <h1 class="header">List of Rooms</h1>
+
+    <!-- Create Room Form -->
+    <div class="create-room">
+      <h2>Create New Room</h2>
+      <div class="input-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" v-model="newRoom.name" />
+      </div>
+      <div class="input-group">
+        <label for="description">Description:</label>
+        <input type="text" id="description" v-model="newRoom.description" />
+      </div>
+      <div class="input-group">
+        <label for="occupied">Occupied:</label>
+        <input type="checkbox" id="occupied" v-model="newRoom.occupied" />
+      </div>
+      <button class="save-btn" @click="saveRoom">Save</button>
+    </div>
+
+    <!-- Room List -->
     <table class="room-table">
       <thead>
         <tr>
           <th>Name</th>
           <th>Description</th>
           <th>Occupied</th>
-          <th>Action</th> <!-- New column for delete buttons -->
         </tr>
       </thead>
       <tbody>
@@ -15,7 +34,6 @@
           <td>{{ room.name }}</td>
           <td>{{ room.description }}</td>
           <td>{{ room.occupied ? 'Yes' : 'No' }}</td>
-          <td><button @click="deleteRoom(room)">Delete</button></td> <!-- Delete button for each room -->
         </tr>
       </tbody>
     </table>
@@ -29,6 +47,7 @@ import axios from 'axios';
 export default {
   setup() {
     const rooms = ref([]);
+    const newRoom = ref({ name: '', description: '', occupied: false });
 
     const fetchRooms = async () => {
       try {
@@ -39,13 +58,15 @@ export default {
       }
     };
 
-    const deleteRoom = async (room) => {
+    const saveRoom = async () => {
       try {
-        await axios.delete(`http://localhost:8000/rooms/${room.id}`);
-        // Refresh the room list after deletion
-        fetchRooms();
+        await axios.post('http://localhost:8000/rooms', newRoom.value);
+        // Clear the new room data
+        newRoom.value = { name: '', description: '', occupied: false };
+        // Fetch updated room list
+        await fetchRooms();
       } catch (error) {
-        console.error('Error deleting room:', error);
+        console.error('Error saving room:', error);
       }
     };
 
@@ -53,25 +74,54 @@ export default {
 
     return {
       rooms,
-      deleteRoom,
+      newRoom,
+      saveRoom,
     };
   },
 };
 </script>
 
 <style>
-body {
-  background-color: #2c2f33; /* Dark background */
-  color: #fff; /* White text */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Modern font */
-}
-
 .container {
   text-align: center;
 }
 
 .header {
   color: #7289da; /* Discord color template */
+}
+
+.create-room {
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 10px;
+}
+
+.input-group label {
+  display: inline-block;
+  width: 100px;
+  text-align: right;
+  margin-right: 10px;
+}
+
+.input-group input[type="text"],
+.input-group input[type="checkbox"] {
+  width: 200px;
+}
+
+.save-btn {
+  background-color: #7289da; /* Discord color template */
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-btn:hover {
+  background-color: #5f73bc; /* Darker shade of Discord color */
 }
 
 .room-table {

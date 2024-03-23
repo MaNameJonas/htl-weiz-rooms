@@ -4,16 +4,18 @@ import sqlalchemy
 from typing import List
 from sqlalchemy.exc import SQLAlchemyError
 
-from crud.datamodel import Base, Room
+from .datamodel import Base, Room
 
 
 class HTL_Weiz_Room:
     def __init__(self):
         db_connection = sqlalchemy.create_engine("sqlite:///rooms.db")
+        print("test")
         Base.metadata.create_all(db_connection)
         self.session_factory = sqlalchemy.orm.sessionmaker()
         self.session_factory.configure(bind=db_connection)
         self.session = self.session_factory()
+        print("Database created successfully")
 
     def get_single_room(self, room_id: int) -> Room:
         try:

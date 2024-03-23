@@ -15,5 +15,4 @@ class Room(Base):
     description = Column(String)
 
     def __repr__(self):
-        return "<Room(name='%s', description='%s')>" % (self.name,
-                                                        self.description)
+        return f"<Room(id={self.room_id}, name='{self.name}', occupied={self.occupied}, description='{self.description}')>"

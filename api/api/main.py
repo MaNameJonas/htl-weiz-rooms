@@ -30,20 +30,22 @@ room_crud = HTL_Weiz_Room()
 
 @app.get('/')
 async def read_main():
-    return "This is the base endpoint of the school rooms reservation API v1."
+    return "This is a tool to administrate th rooms of the HTL Weiz."
 
 
 @app.get('/rooms/', tags=['rooms'])
 async def read_rooms() -> List[Room]:
-    return room_crud.get_rooms()
-
+    rooms = room_crud.get_rooms()
+    # Convert each room object to a dictionary and include the id field
+    return [{**room.__dict__, 'id': room.room_id} for room in rooms]
 
 @app.get('/rooms/{room_id}', tags=['rooms'])
 async def read_room(room_id: int) -> Room:
     room = room_crud.get_single_room(room_id)
     if not room:
         raise HTTPException(status_code=404, detail="Room not found")
-    return room
+    # Convert the room object to a dictionary and include the id field
+    return {**room.__dict__, 'id': room.room_id}
 
 
 @app.post('/rooms/', tags=['rooms'])

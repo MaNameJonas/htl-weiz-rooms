@@ -39,6 +39,7 @@ async def read_rooms() -> List[Room]:
     # Convert each room object to a dictionary and include the id field
     return [{**room.__dict__, 'id': room.room_id} for room in rooms]
 
+
 @app.get('/rooms/{room_id}', tags=['rooms'])
 async def read_room(room_id: int) -> Room:
     room = room_crud.get_single_room(room_id)
